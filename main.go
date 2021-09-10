@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"runtime"
 )
 
@@ -14,8 +15,11 @@ func main() {
 		runtime.Version(),
 	)
 	fmt.Println(msg)
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, msg)
-	})
-	http.ListenAndServe(":9999", nil)
+	daemon := os.Getenv("daemon")
+	if daemon == "1" || daemon == "true" {
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			fmt.Fprintf(w, msg)
+		})
+		http.ListenAndServe(":9999", nil)
+	}
 }
