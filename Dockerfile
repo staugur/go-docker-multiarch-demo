@@ -1,5 +1,5 @@
 ARG buildos=golang:1.17.0-alpine
-ARG runos=alpine
+ARG runos=scratch
 
 # -- build dependencies with alpine --
 FROM $buildos AS builder
