@@ -9,14 +9,8 @@ WORKDIR /build
 COPY . .
 
 ARG TARGETARCH
-ARG TARGETPLATFORM
-ARG BUILDPLATFORM
 
-RUN echo "Running on $BUILDPLATFORM, building for $TARGETPLATFORM and $TARGETARCH" && \
-    echo $(go env GOOS GOARCH GOVERSION)
-
-RUN go env -w GOPROXY=https://goproxy.cn,direct && \
-    CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH go build -ldflags "-s -w" .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH go build -ldflags "-s -w" .
 
 # run application with a small image
 FROM $runos
